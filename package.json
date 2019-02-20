@@ -23,6 +23,8 @@
     "express": "^4.16.4",
     "ioredis": "^4.6.2",
     "method-override": "^3.0.0",
+    "mobx": "^5.9.0",
+    "mobx-react-lite": "^1.0.1",
     "moment": "^2.24.0",
     "pg": "^7.8.0",
     "react": "^16.8.1",

@@ -1,25 +1,16 @@
+import { Observer } from "mobx-react-lite";
 import React from "react";
-import { Api } from "../api/api";
+import { widgetStore } from "../stores/widget-store";
 
-interface IAppState {
-  widgets?: Api.IWidget[];
-}
-
-export class App extends React.Component<{}, IAppState> {
-  constructor(public readonly props: {}) {
-    super(props);
-    this.state = {};
-    this.load();
-  }
-
-  public render() {
-    if (!this.state.widgets) {
+export const App = () => {
+  return <Observer>{() => {
+    if (!widgetStore.widgets) {
       return <div>Loading...</div>;
     }
 
     return (
       <div>
-        {this.state.widgets.map((w) => {
+        {widgetStore.widgets.map((w) => {
           return (
             <div key={w.id}>
               Widget {w.id}
@@ -30,10 +21,5 @@ export class App extends React.Component<{}, IAppState> {
         })}
       </div>
     );
-  }
-
-  private async load() {
-    const widgets = await new Api.WidgetsService().get();
-    this.setState({ widgets });
-  }
-}
+  }}</Observer>;
+};
