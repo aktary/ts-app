@@ -3,6 +3,7 @@ import chalk from "chalk";
 import express from "express";
 import http from "http";
 import methodOverride from "method-override";
+import "./controllers/users-controller";
 import "./controllers/widgets-controller";
 import { RegisterRoutes } from "./routes";
 import { log } from "./utils/log";

@@ -1,9 +1,18 @@
 /* tslint:disable */
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+import { UsersController } from './controllers/users-controller';
 import { WidgetsController } from './controllers/widgets-controller';
 import * as express from 'express';
 
 const models: TsoaRoute.Models = {
+  "IUser": {
+    "properties": {
+      "id": { "dataType": "double", "required": true },
+      "first": { "dataType": "string", "required": true },
+      "last": { "dataType": "string", "required": true },
+      "email": { "dataType": "string", "required": true },
+    },
+  },
   "IWidget": {
     "properties": {
       "id": { "dataType": "double", "required": true },
@@ -15,6 +24,43 @@ const models: TsoaRoute.Models = {
 const validationService = new ValidationService(models);
 
 export function RegisterRoutes(app: express.Express) {
+  app.get('/api/users',
+    function(request: any, response: any, next: any) {
+      const args = {
+      };
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request);
+      } catch (err) {
+        return next(err);
+      }
+
+      const controller = new UsersController();
+
+
+      const promise = controller.GetUsers.apply(controller, validatedArgs as any);
+      promiseHandler(controller, promise, response, next);
+    });
+  app.get('/api/users/:userId',
+    function(request: any, response: any, next: any) {
+      const args = {
+        userId: { "in": "path", "name": "userId", "required": true, "dataType": "double" },
+      };
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request);
+      } catch (err) {
+        return next(err);
+      }
+
+      const controller = new UsersController();
+
+
+      const promise = controller.GetUser.apply(controller, validatedArgs as any);
+      promiseHandler(controller, promise, response, next);
+    });
   app.get('/api/widgets',
     function(request: any, response: any, next: any) {
       const args = {

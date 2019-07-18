@@ -58,6 +58,13 @@ export namespace Api {
   };
 
 
+    export interface IUser {
+      id: number;
+      first: string;
+      last: string;
+      email: string;
+    }
+
     export interface IWidget {
       id: number;
       label: string;
@@ -65,8 +72,30 @@ export namespace Api {
     }
 
 
+    export interface IUsersGetUserParams {
+      userId: number;
+    }
+
     export interface IWidgetsGetWidgetParams {
       widgetId: number;
+    }
+    export class UsersService extends ApiService {
+
+      public async get() {
+        const requestParams: IRequestParams = {
+          method: 'GET',
+          url: `${baseApiUrl}/api/users`
+        };
+        return this.executeRequest<IUser[]>(requestParams);
+      }
+
+      public async getUser(_params: IUsersGetUserParams) {
+        const requestParams: IRequestParams = {
+          method: 'GET',
+          url: `${baseApiUrl}/api/users/${_params.userId}`
+        };
+        return this.executeRequest<IUser>(requestParams);
+      }
     }
     export class WidgetsService extends ApiService {
 
